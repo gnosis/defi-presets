@@ -8,16 +8,16 @@ export default [
       "This is the vault for the StakeWise V2 pool. After migrating from StakeWise V2 to V3, you will be staking in this vault. The node operators in this vault are Chorus One, Cryptomanufaktur, Finoa, Serenita, and StakeWise Labs.",
   },
   {
-    id: "0x2cd404d9d75436e7d6ddbccc2fb9cf7c06941bf1",
-    name: "NEDO",
-    description:
-      "Welcome to the Nedo Vault on StakeWise v3!\n\nWhy Stake with Nedo?\n\nMaximized Returns: Nedo is dedicated to boosting your APY through operational excellence and cost efficiency. We meticulously manage operational costs to enhance your returns and accelerate asset growth.\n\nUncompromised Security: Security is our top priority. We employ cutting-edge measures to safeguard your investments, making Nedo a trusted platform for both institutional and individual investors.\n\nUnwavering Stability: By reinvesting operational fees into our infrastructure, we ensure continuous uptime and reliable performance. Stake with confidence knowing your assets are in steady hands.\n\nTransparency: We believe in openness. Explore our infrastructure in real-time on our transparency dashboard at nedo.fm/gnosis\n\nJoin Nedo Today: Experience secure and profitable staking on the Gnosis Chain with StakeWise v3. Let your assets work harder for you with Nedo.\n\nContact us at: gm@nedo.fm",
-  },
-  {
     id: "0x00025c729a3364faef02c7d1f577068d87e90ba6",
     name: "Serenita",
     description:
       "Serenita provides enterprise-grade staking services, prioritizing optimal performance while mitigating the risks associated with using majority clients. Our exclusive focus is on the Ethereum ecosystem and we are dedicated to its long-term sustainability and neutrality.\n\nWe manage one of the best StakeWise Vaults on Ethereum, and aim to be a leading staking provider on Gnosis Chain as well.\n\nFor a deeper understanding of our operational approach, visit our website at serenita.io",
+  },
+  {
+    id: "0x2cd404d9d75436e7d6ddbccc2fb9cf7c06941bf1",
+    name: "NEDO",
+    description:
+      "Welcome to the Nedo Vault on StakeWise v3!\n\nWhy Stake with Nedo?\n\nMaximized Returns: Nedo is dedicated to boosting your APY through operational excellence and cost efficiency. We meticulously manage operational costs to enhance your returns and accelerate asset growth.\n\nUncompromised Security: Security is our top priority. We employ cutting-edge measures to safeguard your investments, making Nedo a trusted platform for both institutional and individual investors.\n\nUnwavering Stability: By reinvesting operational fees into our infrastructure, we ensure continuous uptime and reliable performance. Stake with confidence knowing your assets are in steady hands.\n\nTransparency: We believe in openness. Explore our infrastructure in real-time on our transparency dashboard at nedo.fm/gnosis\n\nJoin Nedo Today: Experience secure and profitable staking on the Gnosis Chain with StakeWise v3. Let your assets work harder for you with Nedo.\n\nContact us at: gm@nedo.fm",
   },
   {
     id: "0x33c346928ed9249cf1d5fc16ae32a8cffa1671ad",
@@ -36,6 +36,12 @@ export default [
     name: "Stakecat",
     description:
       "Node operators, securing and decentralizing Ethereum |  AVS operator: http://avs.stakecat.space\n \nWe provide greater decentralization for networks with our own infrastructure for validators and high availability to compete with centralized data center performance.\n\nmore about Stakecat here: https://www.stakecat.space/",
+  },
+  {
+    id: "0x9eeb6be79899cfe45018866a2113c6b77fa96f35",
+    name: "SEEDNode",
+    description:
+      "Gnosis v3 Vault 🦉\n\nAt SEEDNode, we promote and strengthen decentralization globally by providing best-in-class node infrastructure and actively participating in multiple networks.\n\nPowered by SEED Org.\nseedlatam.org",
   },
   {
     id: "0x809484b8579dc605917b8f94aa284282d5fe375d",
@@ -62,22 +68,16 @@ export default [
       "stakewise V3 vault on gnosis, brought to you by alpineforge.eu with <3\nhappy staking! 🦉hoot, hoot!",
   },
   {
-    id: "0xe32773a0f6fa8ebf2a32c040dacd031a1ad1e530",
-    name: "Deprecated: Orangefin Ventures",
-    description:
-      "Orangefin Ventures has been acquired and we will be sunsetting our support for Gnosis. We will be exiting all of our validators so users don't incur any penalties. Please unstake at your earliest convenience.",
-  },
-  {
     id: "0x0f6f727421ed6229fcac821147ae104c9326229e",
     name: "Dappnode vault",
     description:
       "This is a vault from a home node runner using a Dappnode secured by an UPS and connected via FTTH. Everybody is welcome. 5% Fees",
   },
   {
-    id: "0x9eeb6be79899cfe45018866a2113c6b77fa96f35",
-    name: "SEEDNode",
+    id: "0xe32773a0f6fa8ebf2a32c040dacd031a1ad1e530",
+    name: "Deprecated: Orangefin Ventures",
     description:
-      "Gnosis v3 Vault 🦉\n\nAt SEEDNode, we promote and strengthen decentralization globally by providing best-in-class node infrastructure and actively participating in multiple networks.\n\nPowered by SEED Org.\nseedlatam.org",
+      "Orangefin Ventures has been acquired and we will be sunsetting our support for Gnosis. We will be exiting all of our validators so users don't incur any penalties. Please unstake at your earliest convenience.",
   },
   {
     id: "0x27b7cb7bc376c0798651238ce5294f70b283bc61",

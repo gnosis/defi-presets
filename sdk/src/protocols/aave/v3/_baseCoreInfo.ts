@@ -78,4 +78,15 @@ export default [
     aTokenAddress: "0xBdb9300b7CDE636d9cD4AFF00f6F009fFBBc8EE6",
     variableDebtTokenAddress: "0x05e08702028de6AaD395DC6478b554a56920b9AD",
   },
+  {
+    symbol: "ezETH",
+    token: "0x2416092f143378750bb29b79eD961ab195CcEea5",
+    usageAsCollateralEnabled: true,
+    borrowingEnabled: false,
+    stableBorrowRateEnabled: false,
+    isActive: true,
+    isFrozen: false,
+    aTokenAddress: "0xDD5745756C2de109183c6B5bB886F9207bEF114D",
+    variableDebtTokenAddress: "0xbc4f5631f2843488792e4F1660d0A51Ba489bdBd",
+  },
 ] as const

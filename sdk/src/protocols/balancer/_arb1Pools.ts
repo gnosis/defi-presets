@@ -145,25 +145,6 @@ export default [
     ],
   },
   {
-    bpt: "0x14ABD18d1FA335E9F630a658a2799B33208763Fa",
-    id: "0x14abd18d1fa335e9f630a658a2799b33208763fa00020000000000000000051f",
-    name: "2CLP-AUSDT-USDT",
-    type: "Gyro2",
-    gauge: "0x1C8D981BBc56B7C65289FE34d7FF692ABDe9c8D5",
-    tokens: [
-      {
-        address: "0xb165a74407fE1e519d6bCbDeC1Ed3202B35a4140",
-        symbol: "stataArbUSDT",
-        id: "0x",
-      },
-      {
-        address: "0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9",
-        symbol: "USDT",
-        id: "0x",
-      },
-    ],
-  },
-  {
     bpt: "0x1533A3278f3F9141d5F820A184EA4B017fce2382",
     id: "0x1533a3278f3f9141d5f820a184ea4b017fce2382000000000000000000000016",
     name: "B-staBAL-3",
@@ -963,6 +944,25 @@ export default [
     ],
   },
   {
+    bpt: "0x65c2d90b33F7bf693A7EF54662435f2Cf3251C21",
+    id: "0x65c2d90b33f7bf693a7ef54662435f2cf3251c210000000000000000000005e7",
+    name: "tETH/wstETH",
+    type: "ComposableStable",
+    gauge: "0xc7995A4bA51574Ecd93e777cded6900ce42ff805",
+    tokens: [
+      {
+        address: "0x5979D7b546E38E414F7E9822514be443A4800529",
+        symbol: "wstETH",
+        id: "0x",
+      },
+      {
+        address: "0xd09ACb80C1E8f2291862c4978A008791c9167003",
+        symbol: "tETH",
+        id: "0x",
+      },
+    ],
+  },
+  {
     bpt: "0x6AF7bCA454f3C8165225Ed46FD4d78cc90E81fAA",
     id: "0x6af7bca454f3c8165225ed46fd4d78cc90e81faa00020000000000000000040c",
     name: "UPDOGE-BPT",
@@ -1429,6 +1429,25 @@ export default [
       {
         address: "0x82aF49447D8a07e3bd95BD0d56f35241523fBab1",
         symbol: "WETH",
+        id: "0x",
+      },
+    ],
+  },
+  {
+    bpt: "0x9D48A5084a2317CDa57A2b21851bF9Bc56F00613",
+    id: "0x9d48a5084a2317cda57a2b21851bf9bc56f006130002000000000000000005e1",
+    name: "ECLP-GYD-MONEY",
+    type: "GyroE",
+    gauge: "0x0BCDc8186c0201A29a7daD1D3e4Fe7a9bf92a0a8",
+    tokens: [
+      {
+        address: "0x69420f9E38a4e60a62224C489be4BF7a94402496",
+        symbol: "MONEY",
+        id: "0x",
+      },
+      {
+        address: "0xCA5d8F8a8d49439357d3CF46Ca2e720702F132b8",
+        symbol: "GYD",
         id: "0x",
       },
     ],
@@ -1995,30 +2014,6 @@ export default [
       {
         address: "0x8d7c2588c365b9e98Ea464b63DBCCDf13ECd9809",
         symbol: "AI",
-        id: "0x",
-      },
-    ],
-  },
-  {
-    bpt: "0xF890360473c12d8015DA8DBf7Af11dA87337A065",
-    id: "0xf890360473c12d8015da8dbf7af11da87337a065000000000000000000000570",
-    name: "GHO/USDC/USDT",
-    type: "ComposableStable",
-    gauge: "0x7d907D8D66B6CAd285D4349F507EcdfD11FD23D2",
-    tokens: [
-      {
-        address: "0x7dfF72693f6A4149b17e7C6314655f6A9F7c8B33",
-        symbol: "GHO",
-        id: "0x",
-      },
-      {
-        address: "0xaf88d065e77c8cC2239327C5EDb3A432268e5831",
-        symbol: "USDC",
-        id: "0x",
-      },
-      {
-        address: "0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9",
-        symbol: "USDT",
         id: "0x",
       },
     ],
