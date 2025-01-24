@@ -1,9 +1,10 @@
 import { eth } from "."
-import { avatar, member } from "../../../test/wallets"
+import { wallets } from "../../../test/wallets"
 import { applyPermissions } from "../../../test/helpers"
 import { contracts } from "../../../eth-sdk/config"
 import { eth as kit } from "../../../test/kit"
 import { parseEther } from "ethers"
+import { Chain } from "../../../src"
 
 const bRethStablePid =
   "0x1e19cf2d73a72ef1332c882f20534b6519be0276000200000000000000000112"
@@ -13,6 +14,7 @@ describe("balancer", () => {
   describe("deposit", () => {
     beforeAll(async () => {
       await applyPermissions(
+        Chain.eth,
         await eth.deposit({ targets: ["B-rETH-STABLE", "50WETH-50-3pool"] })
       )
     })
@@ -29,8 +31,8 @@ describe("balancer", () => {
       await expect(
         kit.asMember.balancer.vault.joinPool(
           bRethStablePid,
-          avatar.address,
-          avatar.address,
+          wallets.avatar,
+          wallets.avatar,
           {
             assets: [rEth, contracts.mainnet.weth],
             maxAmountsIn: [0, parseEther("1")],
@@ -44,8 +46,8 @@ describe("balancer", () => {
       await expect(
         kit.asMember.balancer.vault.joinPool(
           bRethStablePid,
-          member.address,
-          member.address,
+          wallets.member,
+          wallets.member,
           {
             assets: [rEth, contracts.mainnet.weth],
             maxAmountsIn: [0, parseEther("1")],
@@ -59,8 +61,8 @@ describe("balancer", () => {
       await expect(
         kit.asMember.balancer.vault.joinPool(
           "0x5c6ee304399dbdb9c8ef030ab642b10820db8f56000200000000000000000014",
-          avatar.address,
-          avatar.address,
+          wallets.avatar,
+          wallets.avatar,
           {
             assets: [rEth, contracts.mainnet.weth],
             maxAmountsIn: [0, parseEther("1")],
@@ -74,8 +76,8 @@ describe("balancer", () => {
       await expect(
         kit.asMember.balancer.vault.exitPool(
           bRethStablePid,
-          avatar.address,
-          avatar.address,
+          wallets.avatar,
+          wallets.avatar,
           {
             assets: [rEth, contracts.mainnet.weth],
             minAmountsOut: [0, 0],
@@ -89,8 +91,8 @@ describe("balancer", () => {
       await expect(
         kit.asMember.balancer.vault.exitPool(
           bRethStablePid,
-          member.address,
-          member.address,
+          wallets.member,
+          wallets.member,
           {
             assets: [rEth, contracts.mainnet.weth],
             minAmountsOut: [0, 0],
@@ -104,8 +106,8 @@ describe("balancer", () => {
       await expect(
         kit.asMember.balancer.vault.exitPool(
           "0x5c6ee304399dbdb9c8ef030ab642b10820db8f56000200000000000000000014",
-          avatar.address,
-          avatar.address,
+          wallets.avatar,
+          wallets.avatar,
           {
             assets: [rEth, contracts.mainnet.weth],
             minAmountsOut: [0, 0],

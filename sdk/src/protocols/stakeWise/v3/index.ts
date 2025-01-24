@@ -3,7 +3,7 @@ import ethVaults from "./_ethVaults"
 import gnoVaults from "./_gnoVaults"
 import { NotFoundError } from "../../../errors"
 import { stake } from "./actions"
-import { Chain } from "../../../types"
+import { Chain } from "../../../../src"
 
 export const findVault = (vaults: readonly Vault[], nameOrId: string) => {
   const nameOrIdLower = nameOrId.toLowerCase()

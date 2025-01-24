@@ -3,9 +3,10 @@ import { NotFoundError } from "../../errors"
 import ilks from "./_info"
 import { ethProvider } from "../../provider"
 import { getProvider } from "../../../test/provider"
+import { Chain } from "../../../src"
 
 const sdk = getMainnetSdk(
-  process.env.NODE_ENV === "test" ? getProvider() : ethProvider
+  process.env.NODE_ENV === "test" ? getProvider(Chain.eth) : ethProvider
 )
 
 export const queryProxy = async (avatar: `0x${string}`) => {

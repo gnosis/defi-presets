@@ -8,7 +8,7 @@ import baseTokens from "./_baseCoreInfo"
 import { Token } from "./types"
 import { allowErc20Approve } from "../../../conditions"
 import { contracts } from "../../../../eth-sdk/config"
-import { Chain } from "../../../types"
+import { Chain } from "../../../../src"
 
 export const _getAllAddresses = (chain: Chain, market: string) => {
   if (chain === Chain.eth) {

@@ -4,9 +4,10 @@ import { ethProvider } from "../../../provider"
 import { getProvider } from "../../../../test/provider"
 import { EthToken } from "./types"
 import ethInfo from "./_ethInfo"
+import { Chain } from "../../../../src"
 
 const sdk = getMainnetSdk(
-  process.env.NODE_ENV === "test" ? getProvider() : ethProvider
+  process.env.NODE_ENV === "test" ? getProvider(Chain.eth) : ethProvider
 )
 
 export const findToken = (

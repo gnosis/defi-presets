@@ -1,11 +1,12 @@
 import { eth, gno } from "."
 import { aura } from "./actions"
-import { avatar, member } from "../../../test/wallets"
+import { wallets } from "../../../test/wallets"
 import { applyPermissions, stealErc20 } from "../../../test/helpers"
 import { contracts } from "../../../eth-sdk/config"
 import { Status } from "../../../test/types"
 import { eth as kit } from "../../../test/kit"
 import { parseEther } from "ethers"
+import { Chain } from ".../../../src"
 
 const b50Weth50Aura = "0xCfCA23cA9CA720B6E98E3Eb9B6aa0fFC4a5C08B9"
 const b50Weth50AuraPid =
@@ -16,10 +17,11 @@ describe("aura", () => {
   describe("deposit", () => {
     beforeAll(async () => {
       // Aura 50WETH-50AURA
-      await applyPermissions(await eth.deposit({ targets: ["100"] }))
+      await applyPermissions(Chain.eth, await eth.deposit({ targets: ["100"] }))
     })
     it("deposit and withdraw bpt from pool, only claim to avatar", async () => {
       await stealErc20(
+        Chain.eth,
         b50Weth50Aura,
         parseEther("1"),
         contracts.mainnet.aura.booster
@@ -46,12 +48,12 @@ describe("aura", () => {
       await expect(
         kit.asMember.aura.rewarder
           .attach(aura50Weth50AuraRewarder)
-          ["getReward(address,bool)"](avatar.address, true)
+          ["getReward(address,bool)"](wallets.avatar, true)
       ).not.toRevert()
       await expect(
         kit.asMember.aura.rewarder
           .attach(aura50Weth50AuraRewarder)
-          ["getReward(address,bool)"](member.address, true)
+          ["getReward(address,bool)"](wallets.member, true)
       ).toBeForbidden(Status.ParameterNotAllowed)
     }, 60000) // Added 60 seconds of timeout because the deposit takes too long and the test fails.
 

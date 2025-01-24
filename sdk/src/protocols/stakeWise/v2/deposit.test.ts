@@ -2,6 +2,7 @@ import { eth } from "."
 import { applyPermissions } from "../../../../test/helpers"
 import { contracts } from "../../../../eth-sdk/config"
 import { mintNFT } from "../../uniswap/v3/testUtils"
+import { Chain } from "../../../../src"
 
 const stealAddress = "0x56556075Ab3e2Bb83984E90C52850AFd38F20883"
 const eAddress = "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE"
@@ -9,7 +10,10 @@ const eAddress = "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE"
 describe("stakeWiseV2", () => {
   describe("deposit", () => {
     beforeAll(async () => {
-      await applyPermissions(await eth.deposit({ targets: ["ETH-sETH2 0.3%"] }))
+      await applyPermissions(
+        Chain.eth,
+        await eth.deposit({ targets: ["ETH-sETH2 0.3%"] })
+      )
     })
 
     // TODO: fix this test

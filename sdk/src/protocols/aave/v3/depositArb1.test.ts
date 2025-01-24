@@ -1,15 +1,19 @@
 import { arb1 } from "."
-import { avatar, member } from "../../../../test/wallets"
+import { wallets } from "../../../../test/wallets"
 import { applyPermissions } from "../../../../test/helpers"
 import { contracts } from "../../../../eth-sdk/config"
 import { Status } from "../../../../test/types"
 import { arb1 as kit } from "../../../../test/kit"
 import { parseEther } from "ethers"
+import { Chain } from "../../../../src"
 
 describe("aaveV3", () => {
   describe("deposit", () => {
     beforeAll(async () => {
-      await applyPermissions(await arb1.deposit({ targets: ["ETH", "WETH"] }))
+      await applyPermissions(
+        Chain.arb1,
+        await arb1.deposit({ targets: ["ETH", "WETH"] })
+      )
     })
 
     // Test with ETH
@@ -17,7 +21,7 @@ describe("aaveV3", () => {
       await expect(
         kit.asMember.aaveV3.wrappedTokenGatewayV3.depositETH(
           contracts.arbitrumOne.aaveV3.poolV3,
-          avatar.address,
+          wallets.avatar,
           0,
           { value: parseEther("1") }
         )
@@ -26,7 +30,7 @@ describe("aaveV3", () => {
       await expect(
         kit.asMember.aaveV3.wrappedTokenGatewayV3.depositETH(
           contracts.arbitrumOne.aaveV3.poolV3,
-          member.address,
+          wallets.member,
           0,
           { value: parseEther("1") }
         )
@@ -45,7 +49,7 @@ describe("aaveV3", () => {
         kit.asMember.aaveV3.wrappedTokenGatewayV3.withdrawETH(
           contracts.arbitrumOne.aaveV3.poolV3,
           parseEther("1"),
-          avatar.address
+          wallets.avatar
         )
       ).toBeAllowed()
 
@@ -53,7 +57,7 @@ describe("aaveV3", () => {
         kit.asMember.aaveV3.wrappedTokenGatewayV3.withdrawETH(
           contracts.arbitrumOne.aaveV3.poolV3,
           parseEther("1"),
-          member.address
+          wallets.member
         )
       ).toBeForbidden(Status.ParameterNotAllowed)
     })
@@ -71,7 +75,7 @@ describe("aaveV3", () => {
         kit.asMember.aaveV3.poolV3.supply(
           contracts.arbitrumOne.weth,
           parseEther("1"),
-          avatar.address,
+          wallets.avatar,
           0
         )
       ).toBeAllowed()
@@ -80,7 +84,7 @@ describe("aaveV3", () => {
         kit.asMember.aaveV3.poolV3.supply(
           contracts.arbitrumOne.weth,
           parseEther("1"),
-          member.address,
+          wallets.member,
           0
         )
       ).toBeForbidden(Status.ParameterNotAllowed)

@@ -5,9 +5,10 @@ import {
   calculateProxyAddress,
   deployAndSetUpModule,
 } from "@gnosis-guild/zodiac"
-import { avatar, deployer, member, owner } from "./wallets"
+import { createSigner, wallets } from "./wallets"
 import { getProvider } from "./provider"
 import { AbiCoder, Contract, encodeBytes32String } from "ethers"
+import { Chain } from "../src"
 
 const defaultAbiCoder = AbiCoder.defaultAbiCoder()
 
@@ -19,7 +20,7 @@ const SALT =
 const predictRolesModAddress = async () => {
   const encodedInitParams = defaultAbiCoder.encode(
     ["address", "address", "address"],
-    [owner.address, avatar.address, avatar.address]
+    [wallets.owner, wallets.avatar, wallets.avatar]
   )
 
   const moduleSetupData = ContractFactories[KnownContracts.ROLES_V2]
@@ -29,7 +30,7 @@ const predictRolesModAddress = async () => {
   return calculateProxyAddress(
     ContractFactories[KnownContracts.FACTORY].connect(
       ContractAddresses[1][KnownContracts.FACTORY],
-      await deployer.getSigner()
+      await createSigner(Chain.eth, wallets.deployer)
     ) as unknown as Contract,
     ContractAddresses[1][KnownContracts.ROLES_V2],
     moduleSetupData,
@@ -37,16 +38,16 @@ const predictRolesModAddress = async () => {
   )
 }
 
-export async function deployRolesMod() {
-  const deployerSigner = await deployer.getSigner()
+export async function deployRolesMod(chain: Chain) {
+  const deployerSigner = await createSigner(chain, wallets.deployer)
   const { expectedModuleAddress, transaction } = await deployAndSetUpModule(
     KnownContracts.ROLES_V2,
     {
       types: ["address", "address", "address"],
-      values: [owner.address, avatar.address, avatar.address],
+      values: [wallets.owner, wallets.avatar, wallets.avatar],
     },
     deployerSigner.provider,
-    Number((await getProvider().getNetwork()).chainId),
+    Number((await getProvider(chain).getNetwork()).chainId),
     SALT
   )
 
@@ -62,22 +63,22 @@ export async function deployRolesMod() {
     console.error(e)
   }
 
-  console.log("Roles mod deployed at", expectedModuleAddress)
+  console.log(`Roles mod deployed on ${chain} at ${expectedModuleAddress}`)
 }
 
-export const getRolesMod = async () => {
+export const getRolesMod = async (chain: Chain) => {
   return ContractFactories[KnownContracts.ROLES_V2].connect(
     await predictRolesModAddress(),
-    await owner.getSigner()
+    await createSigner(Chain.eth, wallets.owner)
   )
 }
 
-export async function setupRole() {
-  const rolesMod = await getRolesMod()
+export async function setupRole(chain: Chain) {
+  const rolesMod = await getRolesMod(chain)
   await rolesMod.assignRoles(
-    member.address,
+    wallets.member,
     [encodeBytes32String("TEST-ROLE")],
     [true]
   )
-  console.log("Created TEST-ROLE role with member:", member.address)
+  console.log(`Created TEST-ROLE on ${chain} role with member:`, wallets.member)
 }

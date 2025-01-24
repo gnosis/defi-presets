@@ -9,23 +9,24 @@ import {
 } from "./actions"
 import { contracts } from "../../../eth-sdk/config"
 import { Status } from "../../../test/types"
-import { avatar, member } from "../../../test/wallets"
+import { wallets } from "../../../test/wallets"
 import { applyPermissions } from "../../../test/helpers"
 import { eth as kit } from "../../../test/kit"
 import { ZeroAddress, parseEther } from "ethers"
+import { Chain } from "../../../src"
 
 describe("balancer", () => {
   describe("lock", () => {
     beforeAll(async () => {
-      await applyPermissions(await eth.lock())
+      await applyPermissions(Chain.eth, await eth.lock())
     })
 
     it("deposit and withdraw from B-80BAL-20WETH pool", async () => {
       await expect(
         kit.asMember.balancer.vault.joinPool(
           b80Bal20WethPid,
-          avatar.address,
-          avatar.address,
+          wallets.avatar,
+          wallets.avatar,
           {
             assets: [bal, ZeroAddress],
             maxAmountsIn: [0, parseEther("100")],
@@ -40,8 +41,8 @@ describe("balancer", () => {
       await expect(
         kit.asMember.balancer.vault.exitPool(
           b80Bal20WethPid,
-          avatar.address,
-          avatar.address,
+          wallets.avatar,
+          wallets.avatar,
           {
             assets: [bal, contracts.mainnet.weth],
             minAmountsOut: [0, 0],
@@ -97,7 +98,7 @@ describe("balancer", () => {
 
       // Claim only with avatar as user
       await expect(
-        kit.asMember.balancer.feeDistributor.claimTokens(avatar.address, [
+        kit.asMember.balancer.feeDistributor.claimTokens(wallets.avatar, [
           bbaUsdV1,
           bbaUsdV2,
           bbaUsdV3,
@@ -107,7 +108,7 @@ describe("balancer", () => {
       ).not.toRevert()
 
       await expect(
-        kit.asMember.balancer.feeDistributor.claimTokens(member.address, [
+        kit.asMember.balancer.feeDistributor.claimTokens(wallets.member, [
           bbaUsdV1,
           bbaUsdV2,
           bbaUsdV3,

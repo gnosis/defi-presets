@@ -14,9 +14,10 @@ import {
   isError,
   toBeHex,
 } from "ethers"
-import { avatar } from "./wallets"
+import { createSigner, wallets } from "./wallets"
 import { execThroughRole } from "./helpers"
 import { ContractFactories, KnownContracts } from "@gnosis-guild/zodiac"
+import { Chain } from "../src"
 
 /** We need to skip over functions with "view" state mutability. We do this by matching the ethers ContractMethod type  */
 interface StateMutatingContractMethod {
@@ -52,20 +53,21 @@ type TestKit<S extends EthSdk> = {
     : never
 }
 
-const mapSdk = <S extends EthSdk>(sdk: S): TestKit<S> => {
+const mapSdk = <S extends EthSdk>(sdk: S, chain: Chain): TestKit<S> => {
   return Object.keys(sdk).reduce((acc, key) => {
     // for this check to work reliably, make sure ethers node_modules is not duplicated
     if (sdk[key] instanceof BaseContract) {
-      acc[key] = makeTestContract(sdk[key] as BaseContract)
+      acc[key] = makeTestContract(sdk[key] as BaseContract, chain)
     } else {
-      acc[key] = mapSdk(sdk[key] as EthSdk)
+      acc[key] = mapSdk(sdk[key] as EthSdk, chain)
     }
     return acc
   }, {} as any)
 }
 
 const makeTestContract = <C extends BaseContract>(
-  contract: C
+  contract: C,
+  chain: Chain
 ): TestContract<C> => {
   const rolesInterface =
     ContractFactories[KnownContracts.ROLES_V2].createInterface()
@@ -89,7 +91,7 @@ const makeTestContract = <C extends BaseContract>(
     get: (target, prop) => {
       if (prop === "attach") {
         return (addr: string | Addressable) =>
-          makeTestContract(target.attach(addr))
+          makeTestContract(target.attach(addr), chain)
       }
 
       if (typeof prop === "string" && isWriteFunction(prop)) {
@@ -111,6 +113,7 @@ const makeTestContract = <C extends BaseContract>(
             try {
               return await execThroughRole(
                 {
+                  chain,
                   to: (await contract.getAddress()) as `0x${string}`,
                   data,
                   value: value && toBeHex(BigInt(value)),
@@ -183,32 +186,36 @@ const makeTestContract = <C extends BaseContract>(
 }
 
 const initEthKits = async () => {
-  const avatarSdk = getMainnetSdk(await avatar.getSigner())
-  const memberSdk = mapSdk(avatarSdk)
+  const avatarSdk = getMainnetSdk(await createSigner(Chain.eth, wallets.avatar))
+  const memberSdk = mapSdk(avatarSdk, Chain.eth)
   return { asAvatar: avatarSdk, asMember: memberSdk }
 }
 
 const initGnoKits = async () => {
-  const avatarSdk = getGnosisSdk(await avatar.getSigner())
-  const memberSdk = mapSdk(avatarSdk)
+  const avatarSdk = getGnosisSdk(await createSigner(Chain.gno, wallets.avatar))
+  const memberSdk = mapSdk(avatarSdk, Chain.gno)
   return { asAvatar: avatarSdk, asMember: memberSdk }
 }
 
 const initArb1Kits = async () => {
-  const avatarSdk = getArbitrumOneSdk(await avatar.getSigner())
-  const memberSdk = mapSdk(avatarSdk)
+  const avatarSdk = getArbitrumOneSdk(
+    await createSigner(Chain.arb1, wallets.avatar)
+  )
+  const memberSdk = mapSdk(avatarSdk, Chain.arb1)
   return { asAvatar: avatarSdk, asMember: memberSdk }
 }
 
 const initOethKits = async () => {
-  const avatarSdk = getOptimismSdk(await avatar.getSigner())
-  const memberSdk = mapSdk(avatarSdk)
+  const avatarSdk = getOptimismSdk(
+    await createSigner(Chain.oeth, wallets.avatar)
+  )
+  const memberSdk = mapSdk(avatarSdk, Chain.oeth)
   return { asAvatar: avatarSdk, asMember: memberSdk }
 }
 
 const initBaseKits = async () => {
-  const avatarSdk = getBaseSdk(await avatar.getSigner())
-  const memberSdk = mapSdk(avatarSdk)
+  const avatarSdk = getBaseSdk(await createSigner(Chain.base, wallets.avatar))
+  const memberSdk = mapSdk(avatarSdk, Chain.base)
   return { asAvatar: avatarSdk, asMember: memberSdk }
 }
 

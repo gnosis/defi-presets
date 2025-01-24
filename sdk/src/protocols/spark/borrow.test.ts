@@ -1,24 +1,28 @@
 import { eth } from "."
-import { avatar, member } from "../../../test/wallets"
+import { wallets } from "../../../test/wallets"
 import { applyPermissions, stealErc20 } from "../../../test/helpers"
 import { contracts } from "../../../eth-sdk/config"
 import { Status } from "../../../test/types"
 import { eth as kit } from "../../../test/kit"
 import { parseEther } from "ethers"
+import { Chain } from "../../../src"
 
 describe("spark", () => {
   describe("borrow", () => {
     beforeAll(async () => {
       await applyPermissions(
+        Chain.eth,
         await eth.deposit({ targets: ["DAI", "ETH", "sDAI"] })
       )
       await applyPermissions(
+        Chain.eth,
         await eth.borrow({ targets: ["DAI", "ETH", "sDAI"] })
       )
     })
 
     it("deposit sDAI", async () => {
       await stealErc20(
+        Chain.eth,
         contracts.mainnet.spark.sDai,
         parseEther("10000"),
         contracts.mainnet.balancer.vault
@@ -33,7 +37,7 @@ describe("spark", () => {
         kit.asMember.spark.poolV3.supply(
           contracts.mainnet.spark.sDai,
           parseEther("10000"),
-          avatar.address,
+          wallets.avatar,
           0
         )
       ).not.toRevert()
@@ -61,7 +65,7 @@ describe("spark", () => {
           contracts.mainnet.spark.poolV3,
           parseEther("0.5"),
           2,
-          avatar.address,
+          wallets.avatar,
           { value: parseEther("0.5") }
         )
       ).not.toRevert()
@@ -71,7 +75,7 @@ describe("spark", () => {
       await expect(
         kit.asMember.spark.wrappedTokenGatewayV3.depositETH(
           contracts.mainnet.spark.poolV3,
-          avatar.address,
+          wallets.avatar,
           0,
           { value: parseEther("1") }
         )
@@ -83,7 +87,7 @@ describe("spark", () => {
           parseEther("100"),
           2,
           0,
-          avatar.address
+          wallets.avatar
         )
       ).not.toRevert()
 
@@ -99,7 +103,7 @@ describe("spark", () => {
           contracts.mainnet.dai,
           parseEther("50"),
           2,
-          avatar.address
+          wallets.avatar
         )
       ).not.toRevert()
     })
@@ -130,7 +134,7 @@ describe("spark", () => {
           contracts.mainnet.spark.poolV3,
           parseEther("1"),
           2,
-          avatar.address,
+          wallets.avatar,
           { value: parseEther("1") }
         )
       ).toBeAllowed()
@@ -140,7 +144,7 @@ describe("spark", () => {
           contracts.mainnet.spark.poolV3,
           parseEther("1"),
           2,
-          member.address,
+          wallets.member,
           { value: parseEther("1") }
         )
       ).toBeForbidden(Status.ParameterNotAllowed)
@@ -160,7 +164,7 @@ describe("spark", () => {
           parseEther("10000"),
           2,
           0,
-          avatar.address
+          wallets.avatar
         )
       ).toBeAllowed()
 
@@ -170,13 +174,14 @@ describe("spark", () => {
           parseEther("10000"),
           2,
           0,
-          member.address
+          wallets.member
         )
       ).toBeForbidden()
     })
 
     it("only allows repaying DAI from avatar", async () => {
       await stealErc20(
+        Chain.eth,
         contracts.mainnet.dai,
         parseEther("10000"),
         contracts.mainnet.balancer.vault
@@ -194,7 +199,7 @@ describe("spark", () => {
           contracts.mainnet.dai,
           parseEther("10000"),
           2,
-          avatar.address
+          wallets.avatar
         )
       ).toBeAllowed()
 
@@ -203,7 +208,7 @@ describe("spark", () => {
           contracts.mainnet.dai,
           parseEther("10000"),
           2,
-          member.address
+          wallets.member
         )
       ).toBeForbidden()
     })

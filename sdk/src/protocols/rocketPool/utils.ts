@@ -2,9 +2,10 @@ import { getMainnetSdk } from "@gnosis-guild/eth-sdk-client"
 import { ethProvider } from "../../provider"
 import { getProvider } from "../../../test/provider"
 import { keccak256, solidityPacked } from "ethers"
+import { Chain } from "../../../src"
 
 const sdk = getMainnetSdk(
-  process.env.NODE_ENV === "test" ? getProvider() : ethProvider
+  process.env.NODE_ENV === "test" ? getProvider(Chain.eth) : ethProvider
 )
 
 export const queryDepositPool = async () => {

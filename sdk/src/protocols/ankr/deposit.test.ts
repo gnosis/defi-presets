@@ -1,15 +1,16 @@
 import { eth } from "."
 import { applyPermissions } from "../../../test/helpers"
-import { avatar, member } from "../../../test/wallets"
+import { wallets } from "../../../test/wallets"
 import { contracts } from "../../../eth-sdk/config"
 import { Status } from "../../../test/types"
 import { eth as kit } from "../../../test/kit"
 import { parseEther } from "ethers"
+import { Chain } from ".../../../src"
 
 describe("ankr", () => {
   describe("deposit", () => {
     beforeAll(async () => {
-      await applyPermissions(await eth.deposit())
+      await applyPermissions(Chain.eth, await eth.deposit())
     })
 
     it("deposit ETH", async () => {
@@ -30,13 +31,13 @@ describe("ankr", () => {
       await expect(
         kit.asMember.ankr.flashUnstake.swapEth(
           parseEther("0.000001"),
-          avatar.address
+          wallets.avatar
         )
       ).not.toRevert()
       await expect(
         kit.asMember.ankr.flashUnstake.swapEth(
           parseEther("0.01"),
-          member.address
+          wallets.member
         )
       ).toBeForbidden(Status.ParameterNotAllowed)
     })

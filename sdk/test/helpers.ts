@@ -8,16 +8,19 @@ import {
   toBeHex,
 } from "ethers"
 
-import { avatar, owner, member } from "./wallets"
+import { wallets, createSigner } from "./wallets"
 import { getProvider } from "./provider"
 import { createApply } from "../src/apply"
 import { getRolesMod, testRoleKey } from "./rolesMod"
+import { Chain } from "../src"
+import { CHAIN_ID } from "../src/provider"
 
 export const applyPermissions = async (
+  chain: Chain,
   permissions: (Permission | PermissionSet | Promise<PermissionSet>)[]
 ) => {
-  const apply = createApply(1) // chainId here won't matter (since we pass currentTargets and currentAnnotations no subgraph queries will be made)
-  const mod = await getRolesMod()
+  const apply = createApply(CHAIN_ID[chain]) // chainId here won't matter (since we pass currentTargets and currentAnnotations no subgraph queries will be made)
+  const mod = await getRolesMod(chain)
   const calls = await apply(testRoleKey, permissions, {
     address: (await mod.getAddress()) as `0x${string}`,
     mode: "replace",
@@ -27,7 +30,7 @@ export const applyPermissions = async (
   })
 
   console.log(`Applying permissions with ${calls.length} calls`)
-  const ownerSigner = await owner.getSigner()
+  const ownerSigner = await createSigner(chain, wallets.owner)
   // let nonce = await ownerSigner.getNonce()
 
   await Promise.all(
@@ -173,11 +176,13 @@ export const applyPermissions = async (
 
 export const execThroughRole = async (
   {
+    chain,
     to,
     data,
     value,
     operation = 0,
   }: {
+    chain: Chain
     to: `0x${string}`
     data?: `0x${string}`
     value?: `0x${string}`
@@ -185,8 +190,8 @@ export const execThroughRole = async (
   },
   overrides?: Overrides
 ) =>
-  (await getRolesMod())
-    .connect(await member.getSigner())
+  (await getRolesMod(chain))
+    .connect(await createSigner(chain, wallets.member))
     .execTransactionWithRole(
       to,
       value || 0,
@@ -202,11 +207,12 @@ const erc20Interface = new Interface([
 ])
 
 export const stealErc20 = async (
+  chain: Chain,
   token: `0x${string}`,
   amount: BigNumberish,
   from: `0x${string}`
 ) => {
-  const provider = getProvider()
+  const provider = getProvider(chain)
 
   // Impersonate the token holder and give a little gas stipend
   await provider.send("anvil_impersonateAccount", [from])
@@ -220,14 +226,14 @@ export const stealErc20 = async (
   )
 
   // Transfer the requested amount to the avatar
-  await contract.transfer(avatar.address, amount)
+  await contract.transfer(wallets.avatar, amount)
 
   // Stop impersonating
   await provider.send("anvil_stopImpersonatingAccount", [from])
 }
 
-export async function advanceTime(seconds: number) {
-  const provider = getProvider()
+export async function advanceTime(chain: Chain, seconds: number) {
+  const provider = getProvider(chain)
   await provider.send("evm_increaseTime", [seconds])
   await provider.send("evm_mine", [])
 }

@@ -1,20 +1,21 @@
 import { eth } from "."
-import { avatar, member } from "../../../test/wallets"
+import { wallets } from "../../../test/wallets"
 import { applyPermissions, advanceTime } from "../../../test/helpers"
 import { contracts } from "../../../eth-sdk/config"
 import { Status } from "../../../test/types"
 import { eth as kit } from "../../../test/kit"
 import { parseEther } from "ethers"
+import { Chain } from "../../../src"
 
 describe("lido", () => {
   describe("deposit", () => {
     beforeAll(async () => {
-      await applyPermissions(await eth.deposit())
+      await applyPermissions(Chain.eth, await eth.deposit())
     })
 
     it("allows submitting ETH", async () => {
       await expect(
-        kit.asMember.lido.stEth.submit(avatar.address, {
+        kit.asMember.lido.stEth.submit(wallets.avatar, {
           value: parseEther("10"),
         })
       ).not.toRevert()
@@ -42,11 +43,11 @@ describe("lido", () => {
           parseEther("1")
         )
       ).not.toRevert()
-      await advanceTime(2)
+      await advanceTime(Chain.eth, 2)
       await expect(
         kit.asMember.lido.unstEth.requestWithdrawals(
           [parseEther("1")],
-          avatar.address
+          wallets.avatar
         )
       ).not.toRevert()
 
@@ -56,24 +57,24 @@ describe("lido", () => {
           parseEther("1")
         )
       ).not.toRevert()
-      await advanceTime(2)
+      await advanceTime(Chain.eth, 2)
       await expect(
         kit.asMember.lido.unstEth.requestWithdrawalsWstETH(
           [parseEther("1")],
-          avatar.address
+          wallets.avatar
         )
       ).not.toRevert()
 
       await expect(
         kit.asMember.lido.unstEth.requestWithdrawals(
           [parseEther("1")],
-          member.address
+          wallets.member
         )
       ).toBeForbidden(Status.ParameterNotAllowed)
       await expect(
         kit.asMember.lido.unstEth.requestWithdrawalsWstETH(
           [parseEther("1")],
-          member.address
+          wallets.member
         )
       ).toBeForbidden(Status.ParameterNotAllowed)
     })

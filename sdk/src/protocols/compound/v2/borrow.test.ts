@@ -1,19 +1,27 @@
 import { eth } from "."
-import { avatar, member } from "../../../../test/wallets"
+import { wallets } from "../../../../test/wallets"
 import { applyPermissions, stealErc20 } from "../../../../test/helpers"
 import { contracts } from "../../../../eth-sdk/config"
 import { eth as kit } from "../../../../test/kit"
 import { parseEther, parseUnits } from "ethers"
+import { Chain } from "../../../../src"
 
 describe("compoundV2", () => {
   describe("borrow", () => {
     beforeAll(async () => {
-      await applyPermissions(await eth.deposit({ targets: ["ETH", "USDC"] }))
-      await applyPermissions(await eth.borrow({ tokens: ["ETH", "USDC"] }))
+      await applyPermissions(
+        Chain.eth,
+        await eth.deposit({ targets: ["ETH", "USDC"] })
+      )
+      await applyPermissions(
+        Chain.eth,
+        await eth.borrow({ tokens: ["ETH", "USDC"] })
+      )
     })
 
     it("deposit USDC", async () => {
       await stealErc20(
+        Chain.eth,
         contracts.mainnet.usdc,
         parseUnits("10000", 6),
         contracts.mainnet.balancer.vault
@@ -38,13 +46,13 @@ describe("compoundV2", () => {
       ).not.toRevert()
 
       await expect(
-        kit.asMember.compoundV2.maximillion.repayBehalf(avatar.address, {
+        kit.asMember.compoundV2.maximillion.repayBehalf(wallets.avatar, {
           value: parseEther("0.5"),
         })
       ).not.toRevert()
 
       await expect(
-        kit.asMember.compoundV2.maximillion.repayBehalf(member.address, {
+        kit.asMember.compoundV2.maximillion.repayBehalf(wallets.member, {
           value: parseEther("0.5"),
         })
       ).toBeForbidden()

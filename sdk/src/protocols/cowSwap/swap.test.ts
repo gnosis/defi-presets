@@ -1,10 +1,11 @@
 import { id, solidityPackedKeccak256 } from "ethers"
 import { eth } from "."
-import { avatar } from "../../../test/wallets"
+import { wallets } from "../../../test/wallets"
 import { applyPermissions } from "../../../test/helpers"
 import { getProvider } from "../../../test/provider"
 import { contracts } from "../../../eth-sdk/config"
 import { eth as kit } from "../../../test/kit"
+import { Chain } from "../../../src"
 
 describe("cowSwap", () => {
   describe("swap", () => {
@@ -30,16 +31,17 @@ describe("cowSwap", () => {
 
     beforeAll(async () => {
       await applyPermissions(
+        Chain.eth,
         await eth.swap({
           sell: [contracts.mainnet.usdc],
           buy: [contracts.mainnet.weth],
         })
       )
 
-      const provider = getProvider()
+      const provider = getProvider(Chain.eth)
       const block = await provider.getBlock("latest")
 
-      testOrder.receiver = avatar.address
+      testOrder.receiver = wallets.avatar
       testOrder.validTo = block!.timestamp + testOrderValidDuration
     })
 

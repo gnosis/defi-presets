@@ -1,7 +1,7 @@
-import { revertToBase } from "./snapshot"
+import { revertAllToBase } from "./snapshot"
 import { Status } from "./types"
 
-global.afterAll(revertToBase)
+global.afterAll(revertAllToBase)
 
 declare global {
   namespace jest {

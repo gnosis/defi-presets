@@ -3,7 +3,7 @@ import { allow } from "zodiac-roles-sdk/kit"
 import { allowErc20Approve } from "../../../conditions"
 import { Vault } from "./types"
 import { contracts } from "../../../../eth-sdk/config"
-import { Chain } from "../../../types"
+import { Chain } from "../../../../src"
 
 export const stake = (chain: Chain, vault: Vault) => {
   const permissions: Permission[] = [

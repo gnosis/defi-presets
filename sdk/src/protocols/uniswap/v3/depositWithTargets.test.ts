@@ -1,10 +1,11 @@
 import { eth } from "."
-import { avatar, member } from "../../../../test/wallets"
+import { wallets } from "../../../../test/wallets"
 import { applyPermissions, stealErc20 } from "../../../../test/helpers"
 import { contracts } from "../../../../eth-sdk/config"
 import { parseUnits, parseEther } from "ethers"
 import { eth as kit } from "../../../../test/kit"
 import { mintNFT, getPosition, calculateAmounts } from "./testUtils"
+import { Chain } from "../../../../src"
 
 const stealAddress = "0x8eb8a3b98659cce290402893d0123abb75e3ab28"
 const collectMaxAmount = 340282366920938463463374607431768211455n
@@ -29,6 +30,7 @@ describe("uniswapV3", () => {
         fees: ["0.01%"],
       })
       await applyPermissions(
+        Chain.eth,
         await eth.deposit({
           targets: [nftIdRes.toString()],
           tokens: [contracts.mainnet.dai, contracts.mainnet.usdc],
@@ -72,6 +74,7 @@ describe("uniswapV3", () => {
 
     it("only increase liquidity of the avatars' NFT", async () => {
       await stealErc20(
+        Chain.eth,
         contracts.mainnet.usdc,
         parseUnits("50000", 6),
         stealAddress
@@ -90,7 +93,7 @@ describe("uniswapV3", () => {
       ).not.toRevert()
       const nftId =
         await kit.asAvatar.uniswapV3.positionsNft.tokenOfOwnerByIndex(
-          avatar.address,
+          wallets.avatar,
           0
         )
       const position = await getPosition(nftId)
@@ -145,7 +148,7 @@ describe("uniswapV3", () => {
     it("decrease liquidity and collect using WETH", async () => {
       const nftId =
         await kit.asAvatar.uniswapV3.positionsNft.tokenOfOwnerByIndex(
-          avatar.address,
+          wallets.avatar,
           0
         )
       const position = await getPosition(nftId)
@@ -163,7 +166,7 @@ describe("uniswapV3", () => {
           tokenId: nftId,
           amount0Max: collectMaxAmount,
           amount1Max: collectMaxAmount,
-          recipient: avatar.address,
+          recipient: wallets.avatar,
         })
       ).not.toRevert()
       await expect(
@@ -171,7 +174,7 @@ describe("uniswapV3", () => {
           tokenId: nftId,
           amount0Max: collectMaxAmount,
           amount1Max: collectMaxAmount,
-          recipient: member.address,
+          recipient: wallets.member,
         })
       ).toBeForbidden()
     })

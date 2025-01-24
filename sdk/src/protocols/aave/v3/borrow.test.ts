@@ -1,24 +1,28 @@
 import { eth } from "."
-import { avatar, member } from "../../../../test/wallets"
+import { wallets } from "../../../../test/wallets"
 import { applyPermissions, stealErc20 } from "../../../../test/helpers"
 import { contracts } from "../../../../eth-sdk/config"
 import { Status } from "../../../../test/types"
 import { eth as kit } from "../../../../test/kit"
 import { parseEther, parseUnits } from "ethers"
+import { Chain } from "../../../../src"
 
 describe("aaveV3", () => {
   describe("borrow", () => {
     beforeAll(async () => {
       await applyPermissions(
+        Chain.eth,
         await eth.deposit({ market: "Core", targets: ["ETH", "USDC"] })
       )
       await applyPermissions(
+        Chain.eth,
         await eth.borrow({ market: "Core", targets: ["ETH", "USDC"] })
       )
     })
 
     it("deposit USDC", async () => {
       await stealErc20(
+        Chain.eth,
         contracts.mainnet.usdc,
         parseUnits("10000", 6),
         contracts.mainnet.balancer.vault
@@ -33,7 +37,7 @@ describe("aaveV3", () => {
         kit.asMember.aaveV3.poolCoreV3.supply(
           contracts.mainnet.usdc,
           parseUnits("10000", 6),
-          avatar.address,
+          wallets.avatar,
           0
         )
       ).not.toRevert()
@@ -59,7 +63,7 @@ describe("aaveV3", () => {
         kit.asMember.aaveV3.wrappedTokenGatewayCoreV3.repayETH(
           contracts.mainnet.aaveV3.poolCoreV3,
           parseEther("0.5"),
-          avatar.address,
+          wallets.avatar,
           { value: parseEther("0.5") }
         )
       ).not.toRevert()
@@ -69,7 +73,7 @@ describe("aaveV3", () => {
       await expect(
         kit.asMember.aaveV3.wrappedTokenGatewayCoreV3.depositETH(
           contracts.mainnet.aaveV3.poolCoreV3,
-          avatar.address,
+          wallets.avatar,
           0,
           { value: parseEther("1") }
         )
@@ -81,7 +85,7 @@ describe("aaveV3", () => {
           parseUnits("100", 6),
           2,
           0,
-          avatar.address
+          wallets.avatar
         )
       ).not.toRevert()
 
@@ -97,7 +101,7 @@ describe("aaveV3", () => {
           contracts.mainnet.usdc,
           parseUnits("50", 6),
           2,
-          avatar.address
+          wallets.avatar
         )
       ).not.toRevert()
     })
@@ -126,7 +130,7 @@ describe("aaveV3", () => {
         kit.asMember.aaveV3.wrappedTokenGatewayCoreV3.repayETH(
           contracts.mainnet.aaveV3.poolCoreV3,
           parseEther("1"),
-          avatar.address,
+          wallets.avatar,
           { value: parseEther("1") }
         )
       ).toBeAllowed()
@@ -135,7 +139,7 @@ describe("aaveV3", () => {
         kit.asMember.aaveV3.wrappedTokenGatewayCoreV3.repayETH(
           contracts.mainnet.aaveV3.poolCoreV3,
           parseEther("1"),
-          member.address,
+          wallets.member,
           { value: parseEther("1") }
         )
       ).toBeForbidden(Status.ParameterNotAllowed)
@@ -149,7 +153,7 @@ describe("aaveV3", () => {
           parseUnits("10000", 6),
           2,
           0,
-          avatar.address
+          wallets.avatar
         )
       ).toBeAllowed()
 
@@ -159,13 +163,14 @@ describe("aaveV3", () => {
           parseUnits("10000", 6),
           2,
           0,
-          member.address
+          wallets.member
         )
       ).toBeForbidden(Status.ParameterNotAllowed)
     })
 
     it("only allows repaying USDC from avatar", async () => {
       await stealErc20(
+        Chain.eth,
         contracts.mainnet.usdc,
         parseUnits("10000", 6),
         contracts.mainnet.balancer.vault
@@ -183,7 +188,7 @@ describe("aaveV3", () => {
           contracts.mainnet.usdc,
           parseUnits("10000", 6),
           2,
-          avatar.address
+          wallets.avatar
         )
       ).toBeAllowed()
 
@@ -192,7 +197,7 @@ describe("aaveV3", () => {
           contracts.mainnet.usdc,
           parseUnits("10000", 6),
           2,
-          member.address
+          wallets.member
         )
       ).toBeForbidden(Status.ParameterNotAllowed)
     })

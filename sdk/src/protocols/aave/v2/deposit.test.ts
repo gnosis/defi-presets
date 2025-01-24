@@ -1,15 +1,19 @@
 import { eth } from "."
-import { avatar, member } from "../../../../test/wallets"
+import { wallets } from "../../../../test/wallets"
 import { applyPermissions, stealErc20 } from "../../../../test/helpers"
 import { contracts } from "../../../../eth-sdk/config"
 import { Status } from "../../../../test/types"
 import { eth as kit } from "../../../../test/kit"
 import { parseEther, parseUnits } from "ethers"
+import { Chain } from "../../../../src"
 
 describe("aaveV2", () => {
   describe("deposit", () => {
     beforeAll(async () => {
-      await applyPermissions(await eth.deposit({ targets: ["ETH", "USDC"] }))
+      await applyPermissions(
+        Chain.eth,
+        await eth.deposit({ targets: ["ETH", "USDC"] })
+      )
     })
 
     // Test with ETH
@@ -17,7 +21,7 @@ describe("aaveV2", () => {
       await expect(
         kit.asMember.aaveV2.wrappedTokenGatewayV2.depositETH(
           contracts.mainnet.aaveV2.poolV2,
-          avatar.address,
+          wallets.avatar,
           0,
           { value: parseEther("1") }
         )
@@ -26,7 +30,7 @@ describe("aaveV2", () => {
       await expect(
         kit.asMember.aaveV2.wrappedTokenGatewayV2.depositETH(
           contracts.mainnet.aaveV2.poolV2,
-          member.address,
+          wallets.member,
           0,
           { value: parseEther("1") }
         )
@@ -45,7 +49,7 @@ describe("aaveV2", () => {
         kit.asMember.aaveV2.wrappedTokenGatewayV2.withdrawETH(
           contracts.mainnet.aaveV2.poolV2,
           parseEther("1"),
-          avatar.address
+          wallets.avatar
         )
       ).not.toRevert()
 
@@ -53,7 +57,7 @@ describe("aaveV2", () => {
         kit.asMember.aaveV2.wrappedTokenGatewayV2.withdrawETH(
           contracts.mainnet.aaveV2.poolV2,
           parseEther("1"),
-          member.address
+          wallets.member
         )
       ).toBeForbidden(Status.ParameterNotAllowed)
     })
@@ -85,6 +89,7 @@ describe("aaveV2", () => {
     // Test with USDC
     it("only allows depositing USDC on behalf of avatar", async () => {
       await stealErc20(
+        Chain.eth,
         contracts.mainnet.usdc,
         parseUnits("1000", 6),
         contracts.mainnet.balancer.vault
@@ -100,7 +105,7 @@ describe("aaveV2", () => {
         kit.asMember.aaveV2.poolV2.deposit(
           contracts.mainnet.usdc,
           parseUnits("1000", 6),
-          avatar.address,
+          wallets.avatar,
           0
         )
       ).not.toRevert()
@@ -109,7 +114,7 @@ describe("aaveV2", () => {
         kit.asMember.aaveV2.poolV2.deposit(
           contracts.mainnet.usdc,
           parseUnits("1000", 6),
-          member.address,
+          wallets.member,
           0
         )
       ).toBeForbidden(Status.ParameterNotAllowed)
@@ -120,7 +125,7 @@ describe("aaveV2", () => {
         kit.asMember.aaveV2.poolV2.withdraw(
           contracts.mainnet.usdc,
           parseUnits("1000", 6),
-          avatar.address
+          wallets.avatar
         )
       ).not.toRevert()
 
@@ -128,7 +133,7 @@ describe("aaveV2", () => {
         kit.asMember.aaveV2.poolV2.withdraw(
           contracts.mainnet.usdc,
           parseUnits("1000", 6),
-          member.address
+          wallets.member
         )
       ).toBeForbidden(Status.ParameterNotAllowed)
     })

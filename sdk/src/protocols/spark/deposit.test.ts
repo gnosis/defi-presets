@@ -1,10 +1,11 @@
 import { eth } from "."
-import { avatar, member } from "../../../test/wallets"
+import { wallets } from "../../../test/wallets"
 import { applyPermissions, stealErc20 } from "../../../test/helpers"
 import { contracts } from "../../../eth-sdk/config"
 import { Status } from "../../../test/types"
 import { eth as kit } from "../../../test/kit"
 import { formatUnits, parseEther, parseUnits } from "ethers"
+import { Chain } from "../../../src"
 
 const maxAmount =
   115792089237316195423570985008687907853269984665640564039457584007913129639935n
@@ -13,6 +14,7 @@ describe("spark", () => {
   describe("deposit", () => {
     beforeAll(async () => {
       await applyPermissions(
+        Chain.eth,
         await eth.deposit({ targets: ["DSR_sDAI", "ETH", "USDC", "WETH"] })
       )
     })
@@ -22,7 +24,7 @@ describe("spark", () => {
       await expect(
         kit.asMember.spark.wrappedTokenGatewayV3.depositETH(
           contracts.mainnet.spark.poolV3,
-          avatar.address,
+          wallets.avatar,
           0,
           { value: parseEther("1") }
         )
@@ -31,7 +33,7 @@ describe("spark", () => {
       await expect(
         kit.asMember.spark.wrappedTokenGatewayV3.depositETH(
           contracts.mainnet.spark.poolV3,
-          member.address,
+          wallets.member,
           0,
           { value: parseEther("1") }
         )
@@ -50,7 +52,7 @@ describe("spark", () => {
         kit.asMember.spark.wrappedTokenGatewayV3.withdrawETH(
           contracts.mainnet.spark.poolV3,
           parseEther("1"),
-          avatar.address
+          wallets.avatar
         )
       ).not.toRevert()
 
@@ -58,7 +60,7 @@ describe("spark", () => {
         kit.asMember.spark.wrappedTokenGatewayV3.withdrawETH(
           contracts.mainnet.spark.poolV3,
           parseEther("1"),
-          member.address
+          wallets.member
         )
       ).toBeForbidden(Status.ParameterNotAllowed)
     })
@@ -89,6 +91,7 @@ describe("spark", () => {
     // Test with WETH
     it("only allows depositing WETH on behalf of avatar", async () => {
       await stealErc20(
+        Chain.eth,
         contracts.mainnet.weth,
         parseEther("1"),
         contracts.mainnet.balancer.vault
@@ -104,7 +107,7 @@ describe("spark", () => {
         kit.asMember.spark.poolV3.supply(
           contracts.mainnet.weth,
           parseEther("1"),
-          avatar.address,
+          wallets.avatar,
           0
         )
       ).not.toRevert()
@@ -113,7 +116,7 @@ describe("spark", () => {
         kit.asMember.spark.poolV3.supply(
           contracts.mainnet.weth,
           parseEther("1"),
-          member.address,
+          wallets.member,
           0
         )
       ).toBeForbidden(Status.ParameterNotAllowed)
@@ -124,7 +127,7 @@ describe("spark", () => {
         kit.asMember.spark.poolV3.withdraw(
           contracts.mainnet.weth,
           parseEther("1"),
-          avatar.address
+          wallets.avatar
         )
       ).not.toRevert()
 
@@ -132,7 +135,7 @@ describe("spark", () => {
         kit.asMember.spark.poolV3.withdraw(
           contracts.mainnet.weth,
           parseEther("1"),
-          member.address
+          wallets.member
         )
       ).toBeForbidden(Status.ParameterNotAllowed)
     })
@@ -143,7 +146,7 @@ describe("spark", () => {
         kit.asMember.spark.rewardsController.claimRewards(
           [contracts.mainnet.spark.spWeth],
           maxAmount,
-          avatar.address,
+          wallets.avatar,
           contracts.mainnet.lido.wstEth
         )
       ).not.toRevert()
@@ -152,7 +155,7 @@ describe("spark", () => {
         kit.asMember.spark.rewardsController.claimRewards(
           [contracts.mainnet.spark.spWeth],
           maxAmount,
-          member.address,
+          wallets.member,
           contracts.mainnet.lido.wstEth
         )
       ).toBeForbidden(Status.ParameterNotAllowed)
@@ -161,6 +164,7 @@ describe("spark", () => {
     // Test with USDC
     it("only allows depositing USDC on behalf of avatar", async () => {
       await stealErc20(
+        Chain.eth,
         contracts.mainnet.usdc,
         parseUnits("1000", 6),
         contracts.mainnet.balancer.vault
@@ -176,7 +180,7 @@ describe("spark", () => {
         kit.asMember.spark.poolV3.supply(
           contracts.mainnet.usdc,
           parseUnits("1000", 6),
-          avatar.address,
+          wallets.avatar,
           0
         )
       ).not.toRevert()
@@ -185,7 +189,7 @@ describe("spark", () => {
         kit.asMember.spark.poolV3.supply(
           contracts.mainnet.usdc,
           parseUnits("1000", 6),
-          member.address,
+          wallets.member,
           0
         )
       ).toBeForbidden(Status.ParameterNotAllowed)
@@ -196,7 +200,7 @@ describe("spark", () => {
         kit.asMember.spark.poolV3.withdraw(
           contracts.mainnet.usdc,
           parseUnits("1000", 6),
-          avatar.address
+          wallets.avatar
         )
       ).not.toRevert()
 
@@ -204,7 +208,7 @@ describe("spark", () => {
         kit.asMember.spark.poolV3.withdraw(
           contracts.mainnet.usdc,
           parseUnits("1000", 6),
-          member.address
+          wallets.member
         )
       ).toBeForbidden(Status.ParameterNotAllowed)
     })
@@ -234,6 +238,7 @@ describe("spark", () => {
 
     it("only allow sDAI deposit and redeem from avatar", async () => {
       await stealErc20(
+        Chain.eth,
         contracts.mainnet.dai,
         parseEther("1000"),
         contracts.mainnet.balancer.vault
@@ -245,28 +250,28 @@ describe("spark", () => {
         )
       ).not.toRevert()
       await expect(
-        kit.asMember.spark.sDai.deposit(parseEther("1000"), avatar.address)
+        kit.asMember.spark.sDai.deposit(parseEther("1000"), wallets.avatar)
       ).not.toRevert()
       const sDaiBalanceBn = await kit.asAvatar.spark.sDai.balanceOf(
-        avatar.address
+        wallets.avatar
       )
       const sDaiBalance = formatUnits(sDaiBalanceBn, 18).toString()
       await expect(
         kit.asMember.spark.sDai.redeem(
           parseEther(sDaiBalance),
-          avatar.address,
-          avatar.address
+          wallets.avatar,
+          wallets.avatar
         )
       ).not.toRevert()
 
       await expect(
-        kit.asMember.spark.sDai.deposit(parseEther("1000"), member.address)
+        kit.asMember.spark.sDai.deposit(parseEther("1000"), wallets.member)
       ).toBeForbidden(Status.ParameterNotAllowed)
       await expect(
         kit.asMember.spark.sDai.redeem(
           parseEther("1000"),
-          member.address,
-          member.address
+          wallets.member,
+          wallets.member
         )
       ).toBeForbidden(Status.ParameterNotAllowed)
     })

@@ -20,7 +20,7 @@ import { DelegateToken, StakeToken } from "../v2/types"
 import { findDelegateToken, findStakeToken } from "../v2/index"
 import { depositEther, depositToken, borrowEther, borrowToken } from "./actions"
 import { stake, delegate } from "../v2/actions"
-import { Chain } from "../../../types"
+import { Chain } from "../../../../src"
 
 const findToken = (
   tokens: readonly Token[],

@@ -4,11 +4,12 @@ import { applyPermissions } from "../../../test/helpers"
 import { contracts } from "../../../eth-sdk/config"
 import { eth as kit } from "../../../test/kit"
 import { parseEther } from "ethers"
+import { Chain } from "../../../src"
 
 describe("rocketPool", () => {
   describe("deposit", () => {
     beforeAll(async () => {
-      await applyPermissions(await eth.deposit())
+      await applyPermissions(Chain.eth, await eth.deposit())
     })
 
     it("query pool", async () => {

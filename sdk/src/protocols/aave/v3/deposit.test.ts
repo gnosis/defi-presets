@@ -1,15 +1,17 @@
 import { eth } from "."
-import { avatar, member } from "../../../../test/wallets"
+import { wallets } from "../../../../test/wallets"
 import { applyPermissions, stealErc20 } from "../../../../test/helpers"
 import { contracts } from "../../../../eth-sdk/config"
 import { Status } from "../../../../test/types"
 import { eth as kit } from "../../../../test/kit"
 import { parseEther, parseUnits } from "ethers"
+import { Chain } from "../../../../src"
 
 describe("aaveV3", () => {
   describe("deposit", () => {
     beforeAll(async () => {
       await applyPermissions(
+        Chain.eth,
         await eth.deposit({ market: "Core", targets: ["ETH", "USDC", "WETH"] })
       )
     })
@@ -19,7 +21,7 @@ describe("aaveV3", () => {
       await expect(
         kit.asMember.aaveV3.wrappedTokenGatewayCoreV3.depositETH(
           contracts.mainnet.aaveV3.poolCoreV3,
-          avatar.address,
+          wallets.avatar,
           0,
           { value: parseEther("1") }
         )
@@ -28,7 +30,7 @@ describe("aaveV3", () => {
       await expect(
         kit.asMember.aaveV3.wrappedTokenGatewayCoreV3.depositETH(
           contracts.mainnet.aaveV3.poolCoreV3,
-          member.address,
+          wallets.member,
           0,
           { value: parseEther("1") }
         )
@@ -47,7 +49,7 @@ describe("aaveV3", () => {
         kit.asMember.aaveV3.wrappedTokenGatewayCoreV3.withdrawETH(
           contracts.mainnet.aaveV3.poolCoreV3,
           parseEther("1"),
-          avatar.address
+          wallets.avatar
         )
       ).not.toRevert()
 
@@ -55,7 +57,7 @@ describe("aaveV3", () => {
         kit.asMember.aaveV3.wrappedTokenGatewayCoreV3.withdrawETH(
           contracts.mainnet.aaveV3.poolCoreV3,
           parseEther("1"),
-          member.address
+          wallets.member
         )
       ).toBeForbidden(Status.ParameterNotAllowed)
     })
@@ -87,6 +89,7 @@ describe("aaveV3", () => {
     // Test with WETH
     it("only allows depositing WETH on behalf of avatar", async () => {
       await stealErc20(
+        Chain.eth,
         contracts.mainnet.weth,
         parseEther("1"),
         contracts.mainnet.balancer.vault
@@ -102,7 +105,7 @@ describe("aaveV3", () => {
         kit.asMember.aaveV3.poolCoreV3.supply(
           contracts.mainnet.weth,
           parseEther("1"),
-          avatar.address,
+          wallets.avatar,
           0
         )
       ).not.toRevert()
@@ -111,7 +114,7 @@ describe("aaveV3", () => {
         kit.asMember.aaveV3.poolCoreV3.supply(
           contracts.mainnet.weth,
           parseEther("1"),
-          member.address,
+          wallets.member,
           0
         )
       ).toBeForbidden(Status.ParameterNotAllowed)
@@ -122,7 +125,7 @@ describe("aaveV3", () => {
         kit.asMember.aaveV3.poolCoreV3.withdraw(
           contracts.mainnet.weth,
           parseEther("1"),
-          avatar.address
+          wallets.avatar
         )
       ).not.toRevert()
 
@@ -130,7 +133,7 @@ describe("aaveV3", () => {
         kit.asMember.aaveV3.poolCoreV3.withdraw(
           contracts.mainnet.weth,
           parseEther("1"),
-          member.address
+          wallets.member
         )
       ).toBeForbidden(Status.ParameterNotAllowed)
     })
@@ -138,6 +141,7 @@ describe("aaveV3", () => {
     // Test with USDC
     it("only allows depositing USDC on behalf of avatar", async () => {
       await stealErc20(
+        Chain.eth,
         contracts.mainnet.usdc,
         parseUnits("1000", 6),
         contracts.mainnet.balancer.vault
@@ -153,7 +157,7 @@ describe("aaveV3", () => {
         kit.asMember.aaveV3.poolCoreV3.supply(
           contracts.mainnet.usdc,
           parseUnits("1000", 6),
-          avatar.address,
+          wallets.avatar,
           0
         )
       ).not.toRevert()
@@ -162,7 +166,7 @@ describe("aaveV3", () => {
         kit.asMember.aaveV3.poolCoreV3.supply(
           contracts.mainnet.usdc,
           parseUnits("1000", 6),
-          member.address,
+          wallets.member,
           0
         )
       ).toBeForbidden(Status.ParameterNotAllowed)
@@ -173,7 +177,7 @@ describe("aaveV3", () => {
         kit.asMember.aaveV3.poolCoreV3.withdraw(
           contracts.mainnet.usdc,
           parseUnits("1000", 6),
-          avatar.address
+          wallets.avatar
         )
       ).not.toRevert()
 
@@ -181,7 +185,7 @@ describe("aaveV3", () => {
         kit.asMember.aaveV3.poolCoreV3.withdraw(
           contracts.mainnet.usdc,
           parseUnits("1000", 6),
-          member.address
+          wallets.member
         )
       ).toBeForbidden(Status.ParameterNotAllowed)
     })

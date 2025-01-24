@@ -1,24 +1,25 @@
 import { eth } from "."
-import { avatar } from "../../../test/wallets"
+import { wallets } from "../../../test/wallets"
 import { applyPermissions } from "../../../test/helpers"
 import { queryCdps, queryIlk, queryProxy } from "./utils"
 import { ZeroAddress, encodeBytes32String, parseEther } from "ethers"
 import { eth as kit } from "../../../test/kit"
+import { Chain } from "../../../src"
 
 const getProxy = async () => {
-  const proxyAddress = await queryProxy(avatar.address as `0x${string}`)
-  console.log({ proxyAddress, avatar: avatar.address })
+  const proxyAddress = await queryProxy(wallets.avatar as `0x${string}`)
+  console.log({ proxyAddress, avatar: wallets.avatar })
   const proxy = kit.asMember.sky.dsProxy.attach(proxyAddress)
   return proxy
 }
 
 const openSkyCdp = async ({ ilk }: { ilk: string }) => {
   // build proxy if it doesn't exist yet
-  if ((await queryProxy(avatar.address as `0x${string}`)) === ZeroAddress) {
+  if ((await queryProxy(wallets.avatar as `0x${string}`)) === ZeroAddress) {
     await kit.asAvatar.sky.proxyRegistry["build()"]()
   }
 
-  const proxyAddress = await queryProxy(avatar.address as `0x${string}`)
+  const proxyAddress = await queryProxy(wallets.avatar as `0x${string}`)
   const proxy = kit.asAvatar.sky.dsProxy.attach(proxyAddress)
   console.log("ILK from gemjoin", await kit.asAvatar.sky.gemJoin.ilk())
 
@@ -59,10 +60,11 @@ describe("sky", () => {
       console.log("cdpID: ", cdp)
       console.log(
         "applied permissions",
-        await eth.deposit({ avatar: avatar.address as `0x${string}` })
+        await eth.deposit({ avatar: wallets.avatar as `0x${string}` })
       )
       await applyPermissions(
-        await eth.deposit({ avatar: avatar.address as `0x${string}` })
+        Chain.eth,
+        await eth.deposit({ avatar: wallets.avatar as `0x${string}` })
       )
     })
 

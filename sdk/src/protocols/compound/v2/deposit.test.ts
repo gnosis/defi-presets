@@ -1,14 +1,18 @@
 import { eth } from "."
-import { avatar, member } from "../../../../test/wallets"
+import { wallets } from "../../../../test/wallets"
 import { applyPermissions, stealErc20 } from "../../../../test/helpers"
 import { contracts } from "../../../../eth-sdk/config"
 import { eth as kit } from "../../../../test/kit"
 import { parseEther, parseUnits } from "ethers"
+import { Chain } from "../../../../src"
 
 describe("compoundV2", () => {
   describe("deposit", () => {
     beforeAll(async () => {
-      await applyPermissions(await eth.deposit({ targets: ["ETH", "USDC"] }))
+      await applyPermissions(
+        Chain.eth,
+        await eth.deposit({ targets: ["ETH", "USDC"] })
+      )
     })
 
     // Test with ETH
@@ -21,7 +25,7 @@ describe("compoundV2", () => {
       //   kit.asMember.compoundV2.cEth.mint(
       //     {
       //       value: parseEther("1"),
-      //       from: member.address
+      //       from: wallets.member
       //     },
       //   )
       // ).toBeForbidden()
@@ -36,7 +40,7 @@ describe("compoundV2", () => {
       //   kit.asMember.compoundV2.cEth.redeemUnderlying(
       //     parseEther("1"),
       //     {
-      //       from: member.address
+      //       from: wallets.member
       //     }
       //   )
       // ).toBeForbidden(Status.ParameterNotAllowed)
@@ -58,6 +62,7 @@ describe("compoundV2", () => {
     // Test with USDC
     it("only allows depositing USDC on behalf of avatar", async () => {
       await stealErc20(
+        Chain.eth,
         contracts.mainnet.usdc,
         parseUnits("1000", 6),
         contracts.mainnet.balancer.vault
@@ -98,7 +103,7 @@ describe("compoundV2", () => {
     it("only allow claiming COMP on behalf of avatar", async () => {
       await expect(
         kit.asMember.compoundV2.comptroller["claimComp(address,address[])"](
-          avatar.address,
+          wallets.avatar,
           [
             contracts.mainnet.compoundV2.cEth,
             // The cToken in the config file corresponds to cUSDC
@@ -108,7 +113,7 @@ describe("compoundV2", () => {
       ).not.toRevert()
       await expect(
         kit.asMember.compoundV2.comptroller["claimComp(address,address[])"](
-          member.address,
+          wallets.member,
           [
             contracts.mainnet.compoundV2.cEth,
             contracts.mainnet.compoundV2.cToken,
