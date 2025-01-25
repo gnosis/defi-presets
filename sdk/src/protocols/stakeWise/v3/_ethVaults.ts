@@ -20,16 +20,16 @@ export default [
       "3 out of 4 Fault Tolerance  - SSV Operators 491, 770, 1002, 1003 - Solo node runner since April 2023 -  Minority clients Nethermind/Nimbus, Besu/Teku, Erigon/Lodestar, Nethermind/Prysm - MEV enabled - High-end NUC with UPS",
   },
   {
-    id: "0x8a93a876912c9f03f88bc9114847cf5b63c89f56",
-    name: "Stakingverse - Max MEV Boost",
-    description:
-      "Welcome to The Stakingverse!\n\nA premier staking provider with competitive fees, MEV boost and state-of-the-art infrastructure.\n\nAs an official StakeWise partner, we are dedicated to perfecting the secure and decentralized nature of the V3 Protocol to multiple chains. And with a team of highly-experienced professionals, who have been on the front-line of blockchain technology for many years now, you will get the best service, APY and security in liquid staking.\n\nStake your LYX and ETH with The Best at stakingverse.io",
-  },
-  {
     id: "0xb36fc5e542cb4fc562a624912f55da2758998113",
     name: "Serenita - Powered by Vero",
     description:
       "Serenita provides enterprise-grade staking services with a focus on top-tier performance and minimal risk. Our exclusive focus is on the Ethereum ecosystem and we are dedicated to its long-term sustainability and neutrality.\n\nThe validators in this Vault are powered by Vero, our custom-built multi-node validator client software. Similar to DVT technology, Vero verifies the chain’s latest state across multiple independent client implementations—shielding our validators from single-client bugs and downtime.\n\nFor a deeper understanding of our operational approach, visit our website at serenita.io",
+  },
+  {
+    id: "0x8a93a876912c9f03f88bc9114847cf5b63c89f56",
+    name: "Stakingverse - Max MEV Boost",
+    description:
+      "Welcome to The Stakingverse!\n\nA premier staking provider with competitive fees, MEV boost and state-of-the-art infrastructure.\n\nAs an official StakeWise partner, we are dedicated to perfecting the secure and decentralized nature of the V3 Protocol to multiple chains. And with a team of highly-experienced professionals, who have been on the front-line of blockchain technology for many years now, you will get the best service, APY and security in liquid staking.\n\nStake your LYX and ETH with The Best at stakingverse.io",
   },
   {
     id: "0x8216e50b1dd76faeb1ff4cafaba6790ea71910df",
@@ -63,19 +63,19 @@ export default [
   },
   {
     id: "0x05e393ec11d0197a88d84457908edd4ff235f323",
-    name: "Stakin - 0% Fee",
+    name: "Stakin - No MEV",
     description:
       "Stakin (https://stakin.com) provides institutional-grade non-custodial staking services and Web3 infrastructure. We operate on more than 40 blockchain networks including Ethereum, with 10,000+ ETH validators.",
-  },
-  {
-    id: "0x089a97a8bc0c0f016f89f9cf42181ff06afb2daf",
-    name: "validator service",
-    description: "reliable validation",
   },
   {
     id: "0x481afcd21a3447a7a04c4afd968df877b76d2310",
     name: "Sun and Moon Collection",
     description: "Celestial gains for celestial bodies.",
+  },
+  {
+    id: "0x089a97a8bc0c0f016f89f9cf42181ff06afb2daf",
+    name: "validator service",
+    description: "reliable validation",
   },
   {
     id: "0x96fb413349cb4ec17410df929898ae9c0e56ae40",
@@ -96,16 +96,16 @@ export default [
       "Fox & Yaga is a collaboration vault on StakeWise dedicated to securing Ethereum while supporting the growth of Yaga, a unique jewelry brand. This initiative combines the strength of decentralized finance with a passion for fostering local businesses, making it a beacon of community-driven progress in the crypto space.",
   },
   {
-    id: "0xdbdee04c72a02a740b9f26ada9203582c8a99daf",
-    name: "Chorus One - Obol DV vault",
-    description:
-      'This vault represents a distributed validator cluster , using Obol\'s DV technology to run the validators across multiple nodes. As a staker, you can expect higher uptime, decreased slashing risk, and a meaningful contribution to the decentralization of the Ethereum network.\n\nBy staking with an Obol DV, you automatically participate in the Obol Contributions initiative, contributing 1% of staking rewards to the "1% for Decentralization" retroactive funding model. Your contributions will be tracked and recognized by Obol and can be viewed on our staking dApp, OPUS Pool.',
-  },
-  {
     id: "0x91211a4965e75152cb549b308f8ba398c3ab337e",
     name: "Verse ETH Staking",
     description:
       "Earn rewards by staking your ETH in the Verse Ecosystem vault",
+  },
+  {
+    id: "0xdbdee04c72a02a740b9f26ada9203582c8a99daf",
+    name: "Chorus One - Obol DV vault",
+    description:
+      'This vault represents a distributed validator cluster , using Obol\'s DV technology to run the validators across multiple nodes. As a staker, you can expect higher uptime, decreased slashing risk, and a meaningful contribution to the decentralization of the Ethereum network.\n\nBy staking with an Obol DV, you automatically participate in the Obol Contributions initiative, contributing 1% of staking rewards to the "1% for Decentralization" retroactive funding model. Your contributions will be tracked and recognized by Obol and can be viewed on our staking dApp, OPUS Pool.',
   },
   {
     id: "0x2ca762ed936e48c23b8a32403dd754020b07e86f",

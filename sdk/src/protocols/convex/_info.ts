@@ -2724,4 +2724,11 @@ export default [
     cvxDepositToken: "0xbF8ECcdf66547ecBFa15B035aD724aDE9013e9B8",
     rewarder: "0x726E52aBB10597E28D9Ad4C0969b1DfC31092b52",
   },
+  {
+    name: "INV/WETH",
+    id: "416",
+    crvLPToken: "0x6bD88c57523bF138A19b263E8ebC8661c836B171",
+    cvxDepositToken: "0xE5d593C4625Baef241139F9503c9F18c19e5a725",
+    rewarder: "0x31e8accEEbAC3DB72D99C32FbBDbFb1e93cD1F91",
+  },
 ] as const

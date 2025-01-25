@@ -276,7 +276,7 @@ export default [
       },
       {
         address: "0xB86fb1047A955C0186c77ff6263819b37B32440D",
-        symbol: "wUSD+",
+        symbol: "wxUSD",
       },
     ],
     rewarder: "0x182a05eb019eEdA0bAbFa5D8feAad5d81C348bff",
