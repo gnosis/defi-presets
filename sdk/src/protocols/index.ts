@@ -7,6 +7,7 @@ import * as compoundV2 from "./compound/v2"
 // import * as compoundV3 from "./compound/v3"
 import * as convex from "./convex"
 import * as cowSwap from "./cowSwap"
+import * as kelp from "./kelp"
 import * as lido from "./lido"
 import * as sky from "./sky"
 import * as rocketPool from "./rocketPool"
@@ -15,6 +16,7 @@ import * as stader from "./stader"
 import * as stakeWiseV2 from "./stakeWise/v2"
 import * as stakeWiseV3 from "./stakeWise/v3"
 import * as uniswapV3 from "./uniswap/v3"
+import * as symbiotic from "./symbiotic"
 
 import { annotateAll } from "./annotate"
 
@@ -31,12 +33,14 @@ export const eth = annotateAll(
     // compound_v3: compoundV3.eth,
     convex: convex.eth,
     cowswap: cowSwap.eth,
+    kelp: kelp.eth,
     lido: lido.eth,
     sky: sky.eth,
     rocket_pool: rocketPool.eth,
     spark: spark.eth,
     stader: stader.eth,
     stakewise_v2: stakeWiseV2.eth,
+    symbiotic: symbiotic.eth,
     stakewise_v3: stakeWiseV3.eth,
     uniswap_v3: uniswapV3.eth,
   },
