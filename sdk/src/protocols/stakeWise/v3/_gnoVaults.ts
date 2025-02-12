@@ -62,16 +62,16 @@ export default [
       "stakewise V3 vault on gnosis, brought to you by alpineforge.eu with <3\nhappy staking! 🦉hoot, hoot!",
   },
   {
-    id: "0x0f6f727421ed6229fcac821147ae104c9326229e",
-    name: "Dappnode vault",
-    description:
-      "This is a vault from a home node runner using a Dappnode secured by an UPS and connected via FTTH. Everybody is welcome. 5% Fees",
-  },
-  {
     id: "0x79dbec2d18a758c62d410f9763956d52fbd4a3cc",
     name: "Stakers.space",
     description:
       "Gnosis Vault by Stakers.space | Fee 10% | Learn more about Gnosis staking at https://stakers.space/gnosis-staking.",
+  },
+  {
+    id: "0x0f6f727421ed6229fcac821147ae104c9326229e",
+    name: "Dappnode vault",
+    description:
+      "This is a vault from a home node runner using a Dappnode secured by an UPS and connected via FTTH. Everybody is welcome. 5% Fees",
   },
   {
     id: "0xe32773a0f6fa8ebf2a32c040dacd031a1ad1e530",
@@ -116,5 +116,10 @@ export default [
     id: "0x9cb24ec88fca91aff9def12989ab9274f3992d3e",
     name: "Vespertine",
     description: "Investing in a bankless future.",
+  },
+  {
+    id: "0x1361e24571c40052de8fd8405a2d3a5545d7a303",
+    name: "Test No Deposit",
+    description: null,
   },
 ] as const
